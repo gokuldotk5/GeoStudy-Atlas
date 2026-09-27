@@ -99,5 +99,12 @@ function goBack(){if(currentMode==="india-state"){openIndia();return}show("homeV
 document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>b.dataset.open==="india"?openIndia():openWorld());
 $("backBtn").onclick=goBack;$("searchBtn").onclick=()=>{show("searchView");globalSearch()};$("studyBtn").onclick=study;$("addBtn").onclick=()=>openNote();$("noteForm").addEventListener("submit",submitNote);$("cancelBtn").onclick=()=>$("noteDialog").close();$("closeDialog").onclick=()=>$("noteDialog").close();$("deleteBtn").onclick=removeCurrent;$("globalSearch").oninput=globalSearch;$("refreshNotes").onclick=loadNotes;
 $("authBtn").onclick=async()=>{if(!HAS_DB){$("authDialog").showModal();$("authMsg").textContent="This build is in Local mode. Add Supabase values to config.js to enable shared accounts.";return}if(session){await sb.auth.signOut();toast("Signed out")}else{$("authDialog").showModal()}};
-$("closeAuth").onclick=()=>$("authDialog").close();$("authForm").addEventListener("submit",authSubmit);$("authToggle").onclick=()=>{authMode=authMode==="signin"?"signup":"signin";$("authTitle").textContent=authMode==="signin"?"Sign in":"Create account";$("authForm button[type=submit]").textContent=authMode==="signin"?"Sign in":"Create account";$("authToggle").textContent=authMode==="signin"?"Create account":"I already have an account"};
+$("closeAuth").onclick=()=>$("authDialog").close();
+$("authForm").addEventListener("submit",authSubmit);
+$("authToggle").onclick=()=>{
+  authMode=authMode==="signin"?"signup":"signin";
+  $("authTitle").textContent=authMode==="signin"?"Sign in":"Create account";
+  document.querySelector("#authForm button[type=submit]").textContent=authMode==="signin"?"Sign in":"Create account";
+  $("authToggle").textContent=authMode==="signin"?"Create account":"I already have an account";
+};
 loadLocal();initAuth();
