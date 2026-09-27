@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GeoStudy Atlas</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span>🧭</span><div><strong>GeoStudy Atlas</strong><small>Interactive GK & Geography</small></div></div>
+  <div class="top-actions">
+    <button id="backBtn" class="ghost hidden">← Back</button>
+    <button id="searchBtn" class="ghost">⌕ Search</button>
+    <button id="studyBtn" class="ghost">🎯 Study</button>
+    <button id="authBtn" class="primary">Sign in</button>
+  </div>
+</header>
+
+<main>
+  <section id="homeView" class="view">
+    <div class="hero">
+      <div>
+        <span class="eyebrow">YOUR PERSONAL MAP NOTEBOOK</span>
+        <h1>Learn geography by <em>exploring the map.</em></h1>
+        <p>Click a region, drill down, pin exam facts, and keep your own notes. India is designed for state → district → point-level study.</p>
+      </div>
+      <div class="hero-card">
+        <div>🇮🇳 <b>India</b><span>States → districts → locations</span></div>
+        <div>🌍 <b>World</b><span>Regions → countries → locations</span></div>
+      </div>
+    </div>
+    <div class="map-choice">
+      <button class="map-card" data-open="india">
+        <div class="map-card-icon">🇮🇳</div><h2>India</h2><p>Explore states, districts and pinned facts.</p><span>Open India →</span>
+      </button>
+      <button class="map-card" data-open="world">
+        <div class="map-card-icon">🌍</div><h2>World</h2><p>Explore continents, countries and key facts.</p><span>Open World →</span>
+      </button>
+    </div>
+  </section>
+
+  <section id="mapView" class="view hidden">
+    <div class="workspace">
+      <aside class="sidebar">
+        <div class="side-head"><div><span id="crumb" class="eyebrow">INDIA</span><h2 id="placeTitle">India</h2></div><button id="addBtn" class="icon-btn" title="Add note/pin">＋</button></div>
+        <div class="search-mini"><input id="placeSearch" placeholder="Search this map..."><span>⌕</span></div>
+        <div id="infoPanel" class="info-panel"></div>
+        <div class="list-head"><span id="listTitle">Your notes</span><button id="refreshNotes" class="text-btn">Refresh</button></div>
+        <div id="notesList" class="notes-list"></div>
+      </aside>
+      <div class="map-wrap"><div id="map"></div><div id="mapHint">Click a state/country to explore</div></div>
+    </div>
+  </section>
+
+  <section id="searchView" class="view hidden">
+    <div class="page-card"><span class="eyebrow">SEARCH</span><h1>Find your saved facts</h1><input id="globalSearch" class="big-input" placeholder="Search notes, places, categories..."><div id="searchResults"></div></div>
+  </section>
+
+  <section id="studyView" class="view hidden">
+    <div class="page-card"><span class="eyebrow">STUDY MODE</span><h1>Test yourself</h1><p class="muted">Questions are generated from your saved notes. Add more facts to make this mode useful.</p><div id="quiz"></div></div>
+  </section>
+</main>
+
+<div id="toast" class="toast"></div>
+
+<dialog id="noteDialog">
+  <form method="dialog" id="noteForm">
+    <div class="dialog-head"><div><span class="eyebrow">EDIT ATLAS</span><h2 id="dialogTitle">Add a fact</h2></div><button type="button" id="closeDialog" class="icon-btn">×</button></div>
+    <input type="hidden" id="noteId">
+    <div class="form-grid">
+      <label>Title<input id="fTitle" required placeholder="e.g. Lonar Lake"></label>
+      <label>Category<select id="fCategory"><option>National Park</option><option>Lake</option><option>Dam</option><option>River</option><option>Mountain</option><option>Historical Place</option><option>Wildlife</option><option>Temple</option><option>Festival</option><option>Other</option></select></label>
+      <label class="wide">Region / state / country<input id="fRegion" placeholder="e.g. Maharashtra"></label>
+      <label>Latitude<input id="fLat" type="number" step="any" placeholder="18.0"></label>
+      <label>Longitude<input id="fLng" type="number" step="any" placeholder="73.0"></label>
+      <label class="wide">Notes<textarea id="fNotes" rows="6" placeholder="Exam-relevant facts..."></textarea></label>
+      <label class="check"><input id="fImportant" type="checkbox"> Mark as important</label>
+    </div>
+    <div class="dialog-actions"><button type="button" id="deleteBtn" class="danger hidden">Delete</button><span></span><button type="button" id="cancelBtn" class="ghost">Cancel</button><button type="submit" class="primary">Save</button></div>
+  </form>
+</dialog>
+
+<dialog id="authDialog">
+  <form method="dialog" id="authForm">
+    <div class="dialog-head"><div><span class="eyebrow">SHARED DATA</span><h2 id="authTitle">Sign in</h2></div><button type="button" id="closeAuth" class="icon-btn">×</button></div>
+    <p class="muted">Create/sign into a free Supabase account so you and your friend can use the same notes database.</p>
+    <label>Email<input id="authEmail" type="email" required></label>
+    <label>Password<input id="authPassword" type="password" minlength="6" required></label>
+    <div class="dialog-actions"><span></span><button type="button" id="authToggle" class="ghost">Create account</button><button type="submit" class="primary">Sign in</button></div>
+    <p id="authMsg" class="small muted"></p>
+  </form>
+</dialog>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
